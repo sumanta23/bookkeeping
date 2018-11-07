@@ -11,6 +11,7 @@ pipeline {
                         docker.image('node:8-alpine').inside("--link ${c.id}:db") {
                             sh 'npm install'
                             sh 'cat /etc/hosts'
+                            sh 'MONGODB_HOST=db npm test'
                             sh 'MONGODB_HOST=db npm run coverage'
                             junit '**/jenkins-test-results.xml'
                         }
