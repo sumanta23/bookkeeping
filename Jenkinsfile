@@ -13,7 +13,7 @@ pipeline {
                             sh 'cat /etc/hosts'
                             sh 'MONGODB_HOST=db npm test'
                             sh 'MONGODB_HOST=db npm run coverage'
-                            junit '**/jenkins-test-results.xml'
+                            sh 'MONGODB_HOST=db npm run allure'
                         }
                     }
                 }
