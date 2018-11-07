@@ -27,6 +27,18 @@ pipeline {
                 ]
             }
         }
+        stage('reports') {
+            steps {
+                script {
+                    allure([
+                            includeProperties: false,
+                            properties: [],
+                            reportBuildPolicy: 'ALWAYS',
+                            results: [[path: './allure-results']]
+                    ])
+                }
+            }
+        }
         stage('Deliver') {
             steps {
                 sh 'echo "done"'
