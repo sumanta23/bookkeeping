@@ -47,7 +47,7 @@ pipeline {
     }
     post {
         always {
-            junit '**/jenkins-test-results.xml',
+            junit '**/jenkins-test-results.xml'
             step([$class: 'PhabricatorNotifier', commentOnSuccess: true])
         }
     }
