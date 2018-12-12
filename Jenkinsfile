@@ -48,6 +48,9 @@ pipeline {
     post {
         always {
             junit '**/jenkins-test-results.xml'
+            for(e in env){
+                echo e + " is " + ${e}
+            }
             step([$class: 'PhabricatorNotifier', commentOnSuccess: true])
         }
     }
