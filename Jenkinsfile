@@ -49,7 +49,7 @@ pipeline {
         always {
             junit '**/jenkins-test-results.xml'
             echo env.GIT_COMMIT
-            step([$class: 'PhabricatorNotifier', commentOnSuccess: true])
+            step([$class: 'PhabricatorNotifier', commentOnSuccess: true, commitId: env.GIT_COMMIT])
         }
     }
 }
