@@ -48,6 +48,7 @@ pipeline {
     post {
         always {
             junit '**/jenkins-test-results.xml'
+            echo env.GIT_COMMIT
             step([$class: 'PhabricatorNotifier', commentOnSuccess: true])
         }
     }
