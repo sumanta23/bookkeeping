@@ -35,9 +35,9 @@ pipeline {
                   container('node') {
                             sh 'npm install'
                             sh 'cat /etc/hosts'
-                            sh 'MONGODB_HOST=db npm test'
-                            sh 'MONGODB_HOST=db npm run coverage'
-                            sh 'MONGODB_HOST=db npm run allure'
+                            sh 'npm test'
+                            sh 'npm run coverage'
+                            sh 'npm run allure'
                   }
                 }
                 publishHTML target: [
