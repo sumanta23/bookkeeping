@@ -18,6 +18,9 @@ pipeline {
             image: mongo:latest
           - name: node
             image: node:8-alpine
+            command:
+            - cat
+            tty: true
           volumes:
           - name: docker-sock
             hostPath:
