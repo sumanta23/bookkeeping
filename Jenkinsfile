@@ -50,29 +50,11 @@ pipeline {
                 ]
             }
         }
-        stage('reports') {
-            steps {
-                script {
-                    allure([
-                            includeProperties: false,
-                            properties: [],
-                            reportBuildPolicy: 'ALWAYS',
-                            results: [[path: './allure-results']]
-                    ])
-                }
-            }
-        }
-        stage('Deliver') {
-            steps {
-                sh 'echo "done"'
-            }
-        }
     }
     post {
         always {
             junit '**/jenkins-test-results.xml'
             echo env.GIT_COMMIT
-            step([$class: 'PhabricatorNotifier', commentOnSuccess: true, commitId: env.GIT_COMMIT])
         }
     }
 }
