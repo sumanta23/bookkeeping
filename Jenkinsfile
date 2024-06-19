@@ -1,21 +1,41 @@
 pipeline {
-    agent any
-    environment {
-        CI = 'true'
+    agent {
+      kubernetes {
+      yaml '''
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+          - name: docker
+            image: docker:latest
+            command:
+            - cat
+            tty: true
+            volumeMounts:
+             - mountPath: /var/run/docker.sock
+               name: docker-sock
+          - name: mongo
+            image: mongo:latest
+          - name: node
+            image: node:8-alpine
+          volumes:
+          - name: docker-sock
+            hostPath:
+              path: /var/run/docker.sock
+        '''
+      }
     }
     stages {
         stage('Test') {
             steps {
                 script {
-                    docker.image('mongo').withRun { c ->
-                        docker.image('node:8-alpine').inside("--link ${c.id}:db") {
+                  container('node') {
                             sh 'npm install'
                             sh 'cat /etc/hosts'
                             sh 'MONGODB_HOST=db npm test'
                             sh 'MONGODB_HOST=db npm run coverage'
                             sh 'MONGODB_HOST=db npm run allure'
-                        }
-                    }
+                  }
                 }
                 publishHTML target: [
                     allowMissing: false,
